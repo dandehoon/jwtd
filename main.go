@@ -28,7 +28,7 @@ func decodeToken(token string) {
 
 	parts := strings.Split(token, ".")
 
-	for _, part := range parts {
+	for i, part := range parts {
 		data, err := base64.RawStdEncoding.DecodeString(part)
 		if err != nil {
 			continue
@@ -58,6 +58,10 @@ func decodeToken(token string) {
 
 		for _, k := range keys {
 			fmt.Println(dict[k])
+		}
+
+		if i < len(parts)-2 {
+			fmt.Println("---")
 		}
 	}
 }
