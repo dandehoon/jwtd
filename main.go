@@ -22,10 +22,7 @@ func main() {
 
 func decodeToken(token string) {
 	w := os.Stdout
-	token = strings.TrimSpace(token)
-	token = strings.TrimPrefix(token, "Bearer ")
-	token = strings.TrimPrefix(token, "bearer ")
-	token = strings.TrimSpace(token)
+	token = cleanToken(token)
 
 	parts := strings.Split(token, ".")
 
@@ -75,4 +72,12 @@ func getToken() string {
 		panic(err)
 	}
 	return string(s)
+}
+
+func cleanToken(token string) string {
+	token = strings.TrimSpace(token)
+	parts := strings.SplitN(token, " ", 2)
+	token = parts[len(parts)-1]
+	token = strings.TrimSpace(token)
+	return token
 }
