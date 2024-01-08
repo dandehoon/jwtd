@@ -21,6 +21,7 @@ func main() {
 }
 
 func decodeToken(token string) {
+	w := os.Stdout
 	token = strings.TrimSpace(token)
 	token = strings.TrimPrefix(token, "Bearer ")
 	token = strings.TrimPrefix(token, "bearer ")
@@ -57,11 +58,11 @@ func decodeToken(token string) {
 		keys.Sort()
 
 		for _, k := range keys {
-			fmt.Println(dict[k])
+			fmt.Fprintln(w, dict[k])
 		}
 
 		if i < len(parts)-2 {
-			fmt.Println("---")
+			fmt.Fprintln(w, "---")
 		}
 	}
 }
