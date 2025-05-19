@@ -7,7 +7,7 @@ A simple command-line JSON Web Tokens decoder tool.
 1.  **Install the program:**
 
     ```bash
-    go install github.com/danztran/jwtd
+    go install github.com/danztran/jwtd@latest
     ```
 
 2.  **Run the program:**
