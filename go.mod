@@ -1,4 +1,4 @@
-module github.com/danztran/jwt
+module github.com/danztran/jwtd
 
 go 1.21
 

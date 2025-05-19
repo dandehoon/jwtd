@@ -1,0 +1,83 @@
+# jwtd
+
+A simple command-line JSON Web Tokens decoder tool.
+
+## How to Use
+
+1.  **Install the program:**
+
+    ```bash
+    go install github.com/danztran/jwtd
+    ```
+
+2.  **Run the program:**
+    Pipe the JWT into the program via standard input.
+
+    ```bash
+    echo "your.jwt.token" | jwtd
+    ```
+
+    Or paste the token after running `jwtd` and then press Ctrl+D.
+
+    The tool accepts tokens in various formats:
+
+    ```bash
+    # Standard JWT token
+    echo "your.jwt.token" | jwtd
+
+    # With Bearer prefix
+    echo "Bearer your.jwt.token" | jwtd
+
+    # With any custom prefix, extra spaces, or newlines
+    echo "  JWT   your.jwt.token  " | jwtd
+    ```
+
+    **Tip for macOS users:** You can use `pbpaste` to pipe the content of your clipboard directly:
+
+    ```bash
+    pbpaste | jwtd
+    ```
+
+    **Example:**
+    If you have a JWT like `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`
+
+    Running:
+
+    ```bash
+    echo "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" | jwtd
+    ```
+
+    Will output:
+
+    ```
+    alg: HS256
+    typ: JWT
+    ---
+    iat: 1516239022 (2018-01-18T01:30:22Z)
+    name: John Doe
+    sub: 1234567890
+    ```
+
+## Building from Source
+
+If you prefer to build from source:
+
+```bash
+go build -o jwtd main.go
+```
+
+Then you can run it using `./jwtd`.
+
+## Functionality
+
+- Reads a JWT from standard input.
+- Automatically cleans up tokens with:
+  - "Bearer" or any other prefix (e.g., "JWT ", "Token ")
+  - Leading or trailing whitespace
+  - Additional newlines
+- Decodes the Base64Url-encoded header and payload of the JWT.
+- Prints the key-value pairs from the header and payload.
+- Sorts the keys alphabetically for consistent output.
+- Formats Unix timestamp values for `exp` (expiration time), `nbf` (not before), and `iat` (issued at) claims into a human-readable RFC3339 timestamp.
+- Separates the decoded header and payload sections with "---".
+- The signature part of the JWT is not verified or decoded, only the header and payload are processed.
