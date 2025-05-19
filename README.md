@@ -17,8 +17,6 @@ A simple command-line JSON Web Tokens decoder tool.
     echo "your.jwt.token" | jwtd
     ```
 
-    Or paste the token after running `jwtd` and then press Ctrl+D.
-
     The tool accepts tokens in various formats:
 
     ```bash
