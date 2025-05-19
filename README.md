@@ -39,7 +39,6 @@ A simple command-line JSON Web Tokens decoder tool.
     ```
 
     **Example:**
-    If you have a JWT like `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`
 
     Running:
 
@@ -81,3 +80,7 @@ Then you can run it using `./jwtd`.
 - Formats Unix timestamp values for `exp` (expiration time), `nbf` (not before), and `iat` (issued at) claims into a human-readable RFC3339 timestamp.
 - Separates the decoded header and payload sections with "---".
 - The signature part of the JWT is not verified or decoded, only the header and payload are processed.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
