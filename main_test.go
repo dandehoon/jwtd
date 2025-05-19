@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"io"
 	"os"
-	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCleanToken(t *testing.T) {
@@ -111,9 +112,7 @@ func TestDecodeToken(t *testing.T) {
 
 			// Check expected output is contained
 			for _, expected := range tt.contains {
-				if !strings.Contains(output, expected) {
-					t.Errorf("decodeToken() output does not contain %q, got: %q", expected, output)
-				}
+				assert.Contains(t, output, expected, "Expected output to contain %q", expected)
 			}
 		})
 	}
@@ -162,8 +161,6 @@ func TestMain_Integration(t *testing.T) {
 	}
 
 	for _, expected := range expectedStrings {
-		if !strings.Contains(output, expected) {
-			t.Errorf("main() output does not contain %q, got: %q", expected, output)
-		}
+		assert.Contains(t, output, expected, "Expected output to contain %q", expected)
 	}
 }

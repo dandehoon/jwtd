@@ -9,8 +9,6 @@ import (
 	"sort"
 	"strings"
 	"time"
-
-	"github.com/spf13/cast"
 )
 
 func main() {
@@ -23,7 +21,6 @@ func main() {
 func decodeToken(token string) {
 	w := os.Stdout
 	token = cleanToken(token)
-
 	parts := strings.Split(token, ".")
 
 	for i, part := range parts {
@@ -32,7 +29,7 @@ func decodeToken(token string) {
 			continue
 		}
 
-		var meta map[string]interface{}
+		var meta map[string]any
 		if err := json.Unmarshal(data, &meta); err != nil {
 			continue
 		}
@@ -41,16 +38,13 @@ func decodeToken(token string) {
 		keys := make(sort.StringSlice, 0, len(dict))
 		for k, v := range meta {
 			keys = append(keys, k)
-			var s string
+			var ext string
 			switch k {
 			case "exp", "nbf", "iat":
-				num := cast.ToInt64(v)
-				ts := time.Unix(num, 0)
-				s = fmt.Sprintf("%s: %d (%s)", k, num, ts.Format(time.RFC3339))
-			default:
-				s = fmt.Sprintf("%s: %v", k, v)
+				v, ext = getFormattedTime(v)
 			}
-			dict[k] = s
+			s := fmt.Sprintf("%s: %v %s", k, v, ext)
+			dict[k] = strings.TrimSpace(s)
 		}
 		keys.Sort()
 
@@ -62,6 +56,16 @@ func decodeToken(token string) {
 			fmt.Fprintln(w, "---")
 		}
 	}
+}
+
+func getFormattedTime(v any) (int64, string) {
+	plain, ok := v.(float64)
+	if !ok {
+		return 0, "(invalid timestamp)"
+	}
+	num := int64(plain)
+	ts := time.Unix(num, 0)
+	return num, ts.Format(time.RFC3339)
 }
 
 func getToken() string {
