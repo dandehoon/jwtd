@@ -13,9 +13,11 @@ import (
 
 func main() {
 	token := getToken()
-	if token != "" {
-		decodeToken(token)
+	if token == "" {
+		fmt.Fprintln(os.Stderr, "No token provided")
+		os.Exit(1)
 	}
+	decodeToken(token)
 }
 
 func decodeToken(token string) {
@@ -65,7 +67,7 @@ func getFormattedTime(v any) (int64, string) {
 	}
 	num := int64(plain)
 	ts := time.Unix(num, 0)
-	return num, ts.Format(time.RFC3339)
+	return num, fmt.Sprintf("(%s)", ts.Format(time.RFC3339))
 }
 
 func getToken() string {
