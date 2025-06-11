@@ -2,15 +2,33 @@
 
 A simple command-line JSON Web Tokens decoder tool.
 
+## Installation
+
+### Option 1: Quick Install (Recommended)
+
+Download and install the latest release directly from GitHub:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/danztran/jwtd/main/install.sh | bash
+```
+
+### Option 2: Install with Go
+
+If you have Go installed:
+
+```bash
+go install github.com/danztran/jwtd@latest
+```
+
+### Option 3: Download Binary Manually
+
+1. Go to the [releases page](https://github.com/danztran/jwtd/releases)
+2. Download the appropriate binary for your platform
+3. Make it executable and move it to a directory in your PATH
+
 ## How to Use
 
-1.  **Install the program:**
-
-    ```bash
-    go install github.com/danztran/jwtd@latest
-    ```
-
-2.  **Run the program:**
+2.  **Use the tool:**
     Pipe the JWT into the program via standard input.
 
     ```bash
