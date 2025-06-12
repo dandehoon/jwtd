@@ -10,7 +10,7 @@ A simple command-line JSON Web Tokens decoder tool.
 
 ## Installation
 
-### Option 1: Quick Install (Recommended)
+### Option 1: Quick Install
 
 Download and install the latest release directly from GitHub:
 
