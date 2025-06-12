@@ -20,8 +20,8 @@ func decodeToken(token string) error {
 		if i > 0 {
 			fmt.Fprintln(w, "---")
 		}
-
-		data, err := base64.RawStdEncoding.DecodeString(parts[i])
+		part := strings.TrimSpace(parts[i])
+		data, err := base64.RawStdEncoding.DecodeString(part)
 		if err != nil {
 			log.Printf("Error decoding part %d: %v", i+1, err)
 			continue
@@ -39,7 +39,7 @@ func decodeToken(token string) error {
 			var ext string
 			switch k {
 			case "exp", "nbf", "iat":
-				v, ext = getFormattedTime(v)
+				v, ext = getFormattedTime(k, v)
 			}
 			s := fmt.Sprintf("%s: %v %s", k, v, ext)
 			dict[k] = strings.TrimSpace(s)
@@ -55,12 +55,16 @@ func decodeToken(token string) error {
 }
 
 // getFormattedTime converts a timestamp to human-readable format
-func getFormattedTime(v any) (int64, string) {
+func getFormattedTime(k string, v any) (int64, string) {
 	plain, ok := v.(float64)
 	if !ok {
 		return 0, "(invalid timestamp)"
 	}
 	num := int64(plain)
 	ts := time.Unix(num, 0)
-	return num, fmt.Sprintf("(%s)", ts.Format(time.RFC3339))
+	text := ts.Format(time.RFC3339)
+	if k == "exp" && time.Since(ts) > 0 {
+		text += " — expired"
+	}
+	return num, fmt.Sprintf("(%s)", text)
 }
