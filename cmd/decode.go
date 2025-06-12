@@ -16,16 +16,12 @@ func decodeToken(token string) error {
 	w := os.Stdout
 	token = cleanToken(token)
 	parts := strings.Split(token, ".")
-	if len(parts) < 1 {
-		return fmt.Errorf("invalid JWT token format")
-	}
-
-	for i, part := range parts {
+	for i := 0; i < 2 && i < len(parts); i++ {
 		if i > 0 {
 			fmt.Fprintln(w, "---")
 		}
 
-		data, err := base64.RawStdEncoding.DecodeString(part)
+		data, err := base64.RawStdEncoding.DecodeString(parts[i])
 		if err != nil {
 			log.Printf("Error decoding part %d: %v", i+1, err)
 			continue
