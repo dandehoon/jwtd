@@ -4,20 +4,13 @@ A simple command-line JSON Web Tokens decoder tool.
 
 ## Functionality
 
-- Automatically cleans up tokens with:
-  - "Bearer" or any other prefix (e.g., "JWT ", "Token ")
-  - Leading or trailing whitespace
-  - Additional newlines
-- Decodes the Base64Url-encoded header and payload of the JWT.
-- Prints the key-value pairs from the header and payload.
-- Sorts the keys alphabetically for consistent output.
-- Formats Unix timestamp values for `exp` (expiration time), `nbf` (not before), and `iat` (issued at) claims into a human-readable RFC3339 timestamp.
-- Separates the decoded header and payload sections with "---".
-- The signature part of the JWT is not verified or decoded, only the header and payload are processed.
+- Accepts JWT tokens via command-line arguments or standard input
+- Cleans tokens (removes Bearer prefix, whitespace, newlines)
+- Formats timestamps (`exp`, `nbf`, `iat`) as human-readable dates
 
 ## Installation
 
-### Option 1: Quick Install (Recommended)
+### Option 1: Quick Install
 
 Download and install the latest release directly from GitHub:
 
