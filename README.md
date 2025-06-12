@@ -22,7 +22,7 @@ A simple command-line JSON Web Tokens decoder tool.
 Download and install the latest release directly from GitHub:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/danztran/jwtd/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/danztran/jwtd/main/install.sh | sudo bash
 ```
 
 ### Option 2: Install with Go
