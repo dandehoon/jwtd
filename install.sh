@@ -5,7 +5,7 @@ set -e
 # Configuration
 REPO="danztran/jwtd"
 BINARY_NAME="jwtd"
-INSTALL_DIR="${HOME}/.local/bin"
+INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 
 # Colors for output
 RED='\033[0;31m'
@@ -15,15 +15,15 @@ NC='\033[0m' # No Color
 
 # Helper functions
 log_info() {
-  echo -e "${GREEN}[INFO]${NC} $1"
+  echo -e "${GREEN}[INFO]${NC} $1" >&2
 }
 
 log_warn() {
-  echo -e "${YELLOW}[WARN]${NC} $1"
+  echo -e "${YELLOW}[WARN]${NC} $1" >&2
 }
 
 log_error() {
-  echo -e "${RED}[ERROR]${NC} $1"
+  echo -e "${RED}[ERROR]${NC} $1" >&2
 }
 
 # Detect OS and architecture
@@ -97,17 +97,25 @@ download_binary() {
   local temp_dir=$(mktemp -d)
   local temp_file="${temp_dir}/${BINARY_FILE}"
 
-  log_info "Downloading ${BINARY_FILE}..."
-  log_info "URL: $download_url"
-
+  log_info "Downloading $download_url"
   if command -v curl >/dev/null 2>&1; then
-    curl -sL "$download_url" -o "$temp_file"
+    if ! curl -sL "$download_url" -o "$temp_file"; then
+      log_error "Failed to download binary with curl"
+      exit 1
+    fi
   elif command -v wget >/dev/null 2>&1; then
-    wget -q "$download_url" -O "$temp_file"
+    if ! wget -q "$download_url" -O "$temp_file"; then
+      log_error "Failed to download binary with wget"
+      exit 1
+    fi
+  else
+    log_error "Neither curl nor wget is available. Please install one of them."
+    exit 1
   fi
 
-  if [ ! -f "$temp_file" ]; then
-    log_error "Failed to download binary"
+  if [ ! -f "$temp_file" ] || [ ! -s "$temp_file" ]; then
+    log_error "Failed to download binary or file is empty"
+    log_error "Check if the release exists: $download_url"
     exit 1
   fi
 
@@ -145,11 +153,14 @@ install_binary() {
 # Verify installation
 verify_installation() {
   if [ -x "${INSTALL_DIR}/${BINARY_NAME}" ]; then
+    log_info ""
     log_info "Installation successful!"
     log_info "Version: $(${INSTALL_DIR}/${BINARY_NAME} --version 2>/dev/null || echo 'Unable to get version')"
-    log_info ""
     log_info "You can now use '${BINARY_NAME}' command"
-    log_info "Example: echo 'your.jwt.token' | ${BINARY_NAME}"
+    log_info "Example:"
+    log_info "  ${BINARY_NAME} 'your.jwt.token'"
+    log_info "  echo 'your.jwt.token' | ${BINARY_NAME}"
+    log_info "  pbpaste | ${BINARY_NAME}"
   else
     log_error "Installation verification failed"
     exit 1
@@ -166,8 +177,6 @@ main() {
   local temp_file=$(download_binary)
   install_binary "$temp_file"
   verify_installation
-
-  log_info "Installation complete!"
 }
 
 # Handle command line arguments
@@ -182,7 +191,7 @@ case "${1:-}" in
     echo "  --version   Show version and exit"
     echo ""
     echo "Environment variables:"
-    echo "  INSTALL_DIR   Installation directory (default: \$HOME/.local/bin)"
+    echo "  INSTALL_DIR   Installation directory (default: /usr/local/bin)"
     echo ""
     exit 0
     ;;
