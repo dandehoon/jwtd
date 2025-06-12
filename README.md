@@ -2,6 +2,19 @@
 
 A simple command-line JSON Web Tokens decoder tool.
 
+## Functionality
+
+- Automatically cleans up tokens with:
+  - "Bearer" or any other prefix (e.g., "JWT ", "Token ")
+  - Leading or trailing whitespace
+  - Additional newlines
+- Decodes the Base64Url-encoded header and payload of the JWT.
+- Prints the key-value pairs from the header and payload.
+- Sorts the keys alphabetically for consistent output.
+- Formats Unix timestamp values for `exp` (expiration time), `nbf` (not before), and `iat` (issued at) claims into a human-readable RFC3339 timestamp.
+- Separates the decoded header and payload sections with "---".
+- The signature part of the JWT is not verified or decoded, only the header and payload are processed.
+
 ## Installation
 
 ### Option 1: Quick Install (Recommended)
@@ -29,7 +42,32 @@ go install github.com/danztran/jwtd@latest
 ## How to Use
 
 2.  **Use the tool:**
-    Pipe the JWT into the program via standard input.
+    You can provide the JWT token in two ways:
+
+    ### Method 1: Command-line argument (Direct)
+
+    Pass the JWT token directly as a command-line argument:
+
+    ```bash
+    jwtd "your.jwt.token"
+    ```
+
+    The tool accepts tokens in various formats:
+
+    ```bash
+    # Standard JWT token
+    jwtd "your.jwt.token"
+
+    # With Bearer prefix
+    jwtd "Bearer your.jwt.token"
+
+    # With any custom prefix, extra spaces, or newlines
+    jwtd "  JWT   your.jwt.token  "
+    ```
+
+    ### Method 2: Pipe input (Standard input)
+
+    Pipe the JWT into the program via standard input:
 
     ```bash
     echo "your.jwt.token" | jwtd
@@ -54,15 +92,21 @@ go install github.com/danztran/jwtd@latest
     pbpaste | jwtd
     ```
 
-    **Example:**
+    **Examples:**
 
-    Running:
+    Using command-line argument:
+
+    ```bash
+    jwtd "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    ```
+
+    Using pipe input:
 
     ```bash
     echo "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" | jwtd
     ```
 
-    Will output:
+    Both methods will output:
 
     ```
     alg: HS256
@@ -82,20 +126,6 @@ go build -o jwtd main.go
 ```
 
 Then you can run it using `./jwtd`.
-
-## Functionality
-
-- Reads a JWT from standard input.
-- Automatically cleans up tokens with:
-  - "Bearer" or any other prefix (e.g., "JWT ", "Token ")
-  - Leading or trailing whitespace
-  - Additional newlines
-- Decodes the Base64Url-encoded header and payload of the JWT.
-- Prints the key-value pairs from the header and payload.
-- Sorts the keys alphabetically for consistent output.
-- Formats Unix timestamp values for `exp` (expiration time), `nbf` (not before), and `iat` (issued at) claims into a human-readable RFC3339 timestamp.
-- Separates the decoded header and payload sections with "---".
-- The signature part of the JWT is not verified or decoded, only the header and payload are processed.
 
 ## License
 
