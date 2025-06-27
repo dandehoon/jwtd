@@ -1,5 +1,7 @@
 # jwtd
 
+[![CI](https://github.com/dandehoon/jwtd/workflows/CI/badge.svg)](https://github.com/dandehoon/jwtd/actions)
+
 A simple command-line JSON Web Tokens decoder tool.
 
 ## Functionality
@@ -15,7 +17,7 @@ A simple command-line JSON Web Tokens decoder tool.
 Download and install the latest release directly from GitHub:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/danztran/jwtd/main/install.sh | sudo bash
+curl -sSL https://raw.githubusercontent.com/dandehoon/jwtd/main/install.sh | sudo bash
 ```
 
 ### Option 2: Install with Go
@@ -23,12 +25,12 @@ curl -sSL https://raw.githubusercontent.com/danztran/jwtd/main/install.sh | sudo
 If you have Go installed:
 
 ```bash
-go install github.com/danztran/jwtd@latest
+go install github.com/dandehoon/jwtd@latest
 ```
 
 ### Option 3: Download Binary Manually
 
-1. Go to the [releases page](https://github.com/danztran/jwtd/releases)
+1. Go to the [releases page](https://github.com/dandehoon/jwtd/releases)
 2. Download the appropriate binary for your platform
 3. Make it executable and move it to a directory in your PATH
 

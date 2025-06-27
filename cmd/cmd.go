@@ -10,7 +10,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:     "jwtd [JWT_TOKEN]",
 	Short:   "A simple command-line JSON Web Tokens decoder tool",
-	Long:    `jwtd decodes JWT tokens and prints their contents in a human-readable format.`,
+	Long:    `Decodes JWT tokens and prints their contents in a human-readable format.`,
 	Version: VERSION,
 	Example: `  jwtd $JWT_TOKEN
 	echo $JWT_TOKEN | jwtd

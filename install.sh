@@ -3,7 +3,7 @@
 set -e
 
 # Configuration
-REPO="danztran/jwtd"
+REPO="dandehoon/jwtd"
 BINARY_NAME="jwtd"
 INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 

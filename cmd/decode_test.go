@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestDecodeToken(t *testing.T) {
@@ -59,13 +60,17 @@ func TestDecodeToken(t *testing.T) {
 			os.Stdout = w
 
 			// Call function to test
-			decodeToken(tt.token)
+			err := decodeToken(tt.token)
+			if err != nil {
+				t.Logf("decodeToken returned error: %v", err)
+			}
 
 			// Reset stdout and get output
 			w.Close()
 			os.Stdout = oldStdout
 			var buf bytes.Buffer
-			io.Copy(&buf, r)
+			_, err = io.Copy(&buf, r)
+			require.NoError(t, err)
 			output := buf.String()
 
 			// Check expected output is contained

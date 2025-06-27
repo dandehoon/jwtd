@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/danztran/jwtd/cmd"
+	"github.com/dandehoon/jwtd/cmd"
 )
 
 func main() {
