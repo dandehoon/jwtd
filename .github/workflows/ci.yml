@@ -25,8 +25,13 @@ jobs:
       with:
         go-version-file: go.mod
 
+    - name: Install golangci-lint
+      uses: golangci/golangci-lint-action@v6
+      with:
+        version: latest
+
     - name: Run tests
-      run: go test -race -v ./...
+      run: make test
 
   auto-tag:
     name: Create Tag
@@ -74,9 +79,7 @@ jobs:
     - name: Build release binaries
       run: |
         VERSION=${{ steps.get-tag.outputs.tag }}
-        COMMIT=$(git rev-parse --short HEAD)
-        BUILD_TIME=$(date -u '+%Y-%m-%d_%H:%M:%S')
-        LDFLAGS="-X github.com/danztran/jwtd/cmd.VERSION=$VERSION -X github.com/danztran/jwtd/cmd.COMMIT=$COMMIT -X github.com/danztran/jwtd/cmd.BUILD_TIME=$BUILD_TIME"
+        LDFLAGS="-X github.com/dandehoon/jwtd/cmd.VERSION=$VERSION"
 
         mkdir -p dist
 

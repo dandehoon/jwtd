@@ -1,4 +1,4 @@
-module github.com/danztran/jwtd
+module github.com/dandehoon/jwtd
 
 go 1.24
 

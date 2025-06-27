@@ -6,11 +6,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Build-time variables that can be set using -ldflags
+var (
+	VERSION = "dev" // Version can be set at build time
+)
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "jwtd [JWT_TOKEN]",
 	Short:   "A simple command-line JSON Web Tokens decoder tool",
-	Long:    `jwtd decodes JWT tokens and prints their contents in a human-readable format.`,
+	Long:    `Decodes JWT tokens and prints their contents in a human-readable format.`,
 	Version: VERSION,
 	Example: `  jwtd $JWT_TOKEN
 	echo $JWT_TOKEN | jwtd

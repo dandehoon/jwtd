@@ -34,8 +34,10 @@ func TestMain_Integration(t *testing.T) {
 	mockStdin, _ := os.CreateTemp("", "mock-stdin")
 	defer os.Remove(mockStdin.Name())
 
-	mockStdin.WriteString(mockToken)
-	mockStdin.Seek(0, 0)
+	_, err := mockStdin.WriteString(mockToken)
+	assert.NoError(t, err)
+	_, err = mockStdin.Seek(0, 0)
+	assert.NoError(t, err)
 	os.Stdin = mockStdin
 
 	// Set up args for Cobra
@@ -47,7 +49,8 @@ func TestMain_Integration(t *testing.T) {
 	// Close writer to get output
 	w.Close()
 	var buf bytes.Buffer
-	io.Copy(&buf, r)
+	_, err = io.Copy(&buf, r)
+	assert.NoError(t, err)
 	output := buf.String()
 
 	// Check expected content in output
