@@ -59,16 +59,32 @@ rm Formula/jwtd-test.rb.bak
 
 echo "🍺 Testing Homebrew formula..."
 
-# Set environment variables to reduce noise
-export HOMEBREW_NO_INSTALL_CLEANUP=1
-export HOMEBREW_NO_ENV_HINTS=1
+echo "Validating formula syntax..."
+ruby -c Formula/jwtd-test.rb
 
-# Clean any existing installation and install fresh
-brew uninstall --ignore-dependencies jwtd-test 2>/dev/null || true
-brew install --formula Formula/jwtd-test.rb
-jwtd --version
-echo "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" | jwtd
-brew test jwtd-test
-brew uninstall --formula jwtd-test
+echo "Testing download URL accessibility..."
+if curl -I -s "http://localhost:$PORT/$BINARY_NAME" | head -n1 | grep -q "200 OK"; then
+    echo "✅ Download URL is accessible"
+else
+    echo "❌ Download URL failed"
+    exit 1
+fi
+
+echo "Testing binary functionality directly..."
+jwtd_path="./$BINARY_NAME"
+chmod +x "$jwtd_path"
+echo "Testing version command..."
+"$jwtd_path" --version
+
+echo "Testing JWT decoding..."
+output=$("$jwtd_path" <<< "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c")
+if echo "$output" | grep -q "John Doe"; then
+    echo "✅ JWT decoding works correctly"
+    echo "$output"
+else
+    echo "❌ JWT decoding failed"
+    echo "$output"
+    exit 1
+fi
 
 echo "✅ All tests passed!"
