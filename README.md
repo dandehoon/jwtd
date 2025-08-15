@@ -12,7 +12,16 @@ A simple command-line JSON Web Tokens decoder tool.
 
 ## Installation
 
-### Option 1: Quick Install
+### Option 1: Homebrew (Recommended)
+
+```bash
+brew tap dandehoon/jwtd
+brew install jwtd
+```
+
+_Note: Works on macOS and Linux (with Homebrew/Linuxbrew)_
+
+### Option 2: Quick Install
 
 Download and install the latest release directly from GitHub:
 
@@ -20,7 +29,7 @@ Download and install the latest release directly from GitHub:
 curl -sSL https://raw.githubusercontent.com/dandehoon/jwtd/main/install.sh | sudo bash
 ```
 
-### Option 2: Install with Go
+### Option 3: Install with Go
 
 If you have Go installed:
 
@@ -28,7 +37,7 @@ If you have Go installed:
 go install github.com/dandehoon/jwtd@latest
 ```
 
-### Option 3: Download Binary Manually
+### Option 4: Download Binary Manually
 
 1. Go to the [releases page](https://github.com/dandehoon/jwtd/releases)
 2. Download the appropriate binary for your platform
@@ -121,6 +130,16 @@ go build -o jwtd main.go
 ```
 
 Then you can run it using `./jwtd`.
+
+## Homebrew Tap Development
+
+Testing the Homebrew formula:
+
+```bash
+make test-brew
+```
+
+This will audit the formula and test installation.
 
 ## License
 

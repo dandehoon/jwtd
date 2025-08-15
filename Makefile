@@ -15,3 +15,6 @@ check:
 	make lint
 	make tidy
 	make test
+
+test-brew:
+	@./scripts/test-brew.sh
