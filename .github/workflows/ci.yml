@@ -14,7 +14,7 @@ permissions:
 jobs:
   test:
     name: Test
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
@@ -32,12 +32,6 @@ jobs:
 
     - name: Run tests
       run: make test
-
-    - name: Set up Homebrew
-      uses: Homebrew/actions/setup-homebrew@master
-
-    - name: Test Homebrew formula
-      run: make test-brew
 
   auto-tag:
     name: Create Tag

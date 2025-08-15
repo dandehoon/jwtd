@@ -15,7 +15,7 @@ A simple command-line JSON Web Tokens decoder tool.
 ### Option 1: Homebrew (Recommended)
 
 ```bash
-brew tap dandehoon/jwtd
+brew tap dandehoon/tools
 brew install jwtd
 ```
 
